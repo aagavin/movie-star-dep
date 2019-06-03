@@ -1,10 +1,8 @@
-from starlette.applications import Starlette
+from routes import app
 from starlette.requests import Request
 from starlette.responses import UJSONResponse
 import uvicorn
 
-
-app = Starlette(debug=True)
 
 
 @app.route('/')
