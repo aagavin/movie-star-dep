@@ -1,8 +1,7 @@
-from routes import app
+from src.routes import app
 from starlette.requests import Request
 from starlette.responses import UJSONResponse
 import uvicorn
-
 
 
 @app.route('/')
