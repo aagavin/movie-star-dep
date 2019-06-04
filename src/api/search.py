@@ -11,8 +11,8 @@ BASE_URL = config('BASE_URL', cast=URL)
 
 
 async def search_all(request: Request):
-    endpoint = request.path_params['endpoint']
-    if endpoint not in ['movie', 'tv']:
+    endpoint = request.path_params.get('endpoint')
+    if endpoint is None or endpoint not in ['movie', 'tv']:
         endpoint = 'multi'
     return await do_search(request, f'/search/{endpoint}')
 
@@ -27,5 +27,6 @@ async def do_search(request, url):
 
 
 SearchRouter = Router([
-    Route('/{endpoint}', endpoint=search_all, methods=['GET']),
+    Route('/', endpoint=search_all, methods=['GET']),
+    Route('/{endpoint}', endpoint=search_all, methods=['GET'])
 ])
