@@ -1,13 +1,8 @@
 from starlette.routing import Route, Router
 from starlette.requests import Request
 from starlette.responses import UJSONResponse
-from starlette.datastructures import URL, Secret
+from .. import reqSession, API_KEY, BASE_URL
 from requests import Response
-from .. import reqSession, config
-
-
-API_KEY = config('API_KEY', cast=Secret)
-BASE_URL = config('BASE_URL', cast=URL)
 
 
 async def search_all(request: Request):
