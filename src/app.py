@@ -9,4 +9,4 @@ async def home(request: Request) -> UJSONResponse:
     return UJSONResponse({'success': True, 'query': dict(request.query_params)})
 
 if __name__ == '__main__':
-    uvicorn.run(app, host='0.0.0.0', port=3000)
+    uvicorn.run(app, port=3000)
