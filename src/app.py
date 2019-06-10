@@ -1,7 +1,11 @@
 from src.routes import app
 from starlette.requests import Request
+from starlette.middleware.cors import CORSMiddleware
 from starlette.responses import UJSONResponse
 import uvicorn
+
+
+app.add_middleware(CORSMiddleware, allow_origins=['*'])
 
 
 @app.route('/')

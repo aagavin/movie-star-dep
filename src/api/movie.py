@@ -1,7 +1,6 @@
 from starlette.routing import Route, Router
 from starlette.requests import Request
 from starlette.responses import UJSONResponse
-from functools import lru_cache
 from requests import Response
 from .. import reqSession, API_KEY, BASE_URL
 
