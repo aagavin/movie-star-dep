@@ -5,7 +5,7 @@ from starlette.responses import UJSONResponse
 import uvicorn
 
 
-app.add_middleware(CORSMiddleware, allow_origins=['*'])
+app.add_middleware(CORSMiddleware, allow_origins=['*'], expose_headers=[])
 
 
 @app.route('/')
