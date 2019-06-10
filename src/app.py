@@ -1,11 +1,18 @@
 from src.routes import app
 from starlette.requests import Request
 from starlette.middleware.cors import CORSMiddleware
+# from starlette.middleware.base import BaseHTTPMiddleware
 from starlette.responses import UJSONResponse
 import uvicorn
 
 
-app.add_middleware(CORSMiddleware, allow_origins=['*'], expose_headers=[])
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_headers=["*"],
+    allow_methods=["*"]
+)
+# app.add_middleware(CustomHeaderMiddleware)
 
 
 @app.route('/')
