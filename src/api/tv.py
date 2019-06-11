@@ -17,7 +17,7 @@ async def get_popular_tv(request: Request) -> UJSONResponse:
 
 
 async def get_up_coming_tv(request: Request) -> UJSONResponse:
-    result: Response = reqSession.get(f'{BASE_URL}/tv/latest', params={'api_key': API_KEY})
+    result: Response = reqSession.get(f'{BASE_URL}/tv/airing_today', params={'api_key': API_KEY})
     return UJSONResponse(result.json()['results'])
 
 
