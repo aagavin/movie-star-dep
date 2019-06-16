@@ -18,7 +18,8 @@ async def do_search(request, url):
         'query': request.query_params.get('q')
     }
     result: Response = reqSession.get(f'{BASE_URL}{url}', params=query_params)
-    return UJSONResponse(result.json()['results'])
+    response = [x for x in result.json()['results'] if x['media_type'] in ['movie', 'tv']]
+    return UJSONResponse(response)
 
 
 SearchRouter = Router([
