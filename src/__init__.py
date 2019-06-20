@@ -1,5 +1,5 @@
 from starlette.config import Config
-from starlette.datastructures import URL, Secret
+from starlette.datastructures import Secret
 from requests import Session
 from firebase_admin import credentials
 import firebase_admin
@@ -19,6 +19,7 @@ auth_uri = config('auth_uri')
 token_uri = config('token_uri')
 auth_provider_x509_cert_url = config('auth_provider_x509_cert_url')
 client_x509_cert_url = config('client_x509_cert_url')
+REDISCLOUD_URL = config('REDISCLOUD_URL')
 
 reqSession: Session = requests.session()
 

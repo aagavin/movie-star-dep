@@ -6,7 +6,7 @@ from .. import reqSession, API_KEY, BASE_URL
 
 
 async def get_tv_by_id(request: Request) -> UJSONResponse:
-    movie_id = request.path_params.get('movie_id')
+    movie_id = request.path_params.get('tv_id')
     result: Response = reqSession.get(f'{BASE_URL}/tv/{movie_id}', params={'api_key': API_KEY})
     return UJSONResponse(result.json())
 
@@ -24,5 +24,5 @@ async def get_up_coming_tv(request: Request) -> UJSONResponse:
 TvRouter = Router([
     Route('/popular', endpoint=get_popular_tv, methods=['GET']),
     Route('/upcoming', endpoint=get_up_coming_tv, methods=['GET']),
-    Route('/{movie_id}', endpoint=get_tv_by_id, methods=['GET'])
+    Route('/{tv_id}', endpoint=get_tv_by_id, methods=['GET'])
 ])
