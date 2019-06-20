@@ -1,6 +1,6 @@
 CacheControl==0.12.5
 cachetools==3.1.1
-certifi==2019.3.9
+certifi==2019.6.16
 chardet==3.0.4
 Click==7.0
 firebase-admin==2.17.0
@@ -30,11 +30,11 @@ redis==3.2.1
 requests==2.22.0
 rsa==4.0
 six==1.12.0
-starlette==0.12.0
+starlette==0.12.1
 ujson==1.35
 uritemplate==3.0.0
 urllib3==1.25.3
-uvicorn==0.7.1
+uvicorn==0.8.1
 uvloop==0.12.2
 websockets==7.0
 wirerope==0.2.1
