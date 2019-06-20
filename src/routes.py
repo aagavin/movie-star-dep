@@ -1,5 +1,7 @@
 from starlette.routing import Mount
 from starlette.applications import Starlette
+from starlette.requests import Request
+from starlette.responses import UJSONResponse
 from src.api.search import SearchRouter
 from src.api.account import AccountRouter
 from src.api.movie import MovieRouter
@@ -19,3 +21,8 @@ app.routes.extend(
         Mount('/user', app=AccountRouter)
     ]
 )
+
+
+@app.route('/')
+async def home(request: Request) -> UJSONResponse:
+    return UJSONResponse({'success': True, 'query': dict(request.query_params)})
