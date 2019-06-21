@@ -4,9 +4,12 @@ from requests import Session
 from firebase_admin import credentials
 import firebase_admin
 import requests
+import redis
 
 
 config = Config()
+ONE_WEEK_SECS = 604800
+reqSession: Session = requests.session()
 
 API_KEY = config('API_KEY', cast=Secret)
 BASE_URL = config('BASE_URL')
@@ -20,8 +23,6 @@ token_uri = config('token_uri')
 auth_provider_x509_cert_url = config('auth_provider_x509_cert_url')
 client_x509_cert_url = config('client_x509_cert_url')
 REDISCLOUD_URL = config('REDISCLOUD_URL')
-
-reqSession: Session = requests.session()
 
 
 cred = credentials.Certificate({
@@ -39,3 +40,4 @@ cred = credentials.Certificate({
 
 
 firebase_app = firebase_admin.initialize_app(cred)
+redis_db = redis.from_url(REDISCLOUD_URL)
