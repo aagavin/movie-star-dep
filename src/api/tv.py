@@ -9,8 +9,8 @@ import base64
 
 async def get_tv_by_id(request: Request) -> UJSONResponse:
     encoded = base64.b64encode(f'{request.url.path}-{request.query_params}'.encode('utf-8'))
-    movie_id = request.path_params.get('tv_id')
-    result: Response = reqSession.get(f'{BASE_URL}/tv/{movie_id}', params={'api_key': API_KEY})
+    tv_id = request.path_params.get('tv_id')
+    result: Response = reqSession.get(f'{BASE_URL}/tv/{tv_id}', params={'api_key': API_KEY})
     redis_db.set(encoded, json_dumps(result.json()), ex=ONE_WEEK_SECS)
     return UJSONResponse(result.json())
 
@@ -29,8 +29,22 @@ async def get_up_coming_tv(request: Request) -> UJSONResponse:
     return UJSONResponse(result.json()['results'])
 
 
+async def get_episodes_by_season(request: Request):
+    encoded = base64.b64encode(f'{request.url.path}-{request.query_params}'.encode('utf-8'))
+    tv_id = request.path_params.get('tv_id')
+    season_number = request.path_params.get('season_number')
+    episode_number = request.path_params.get('episode_number')
+    result: Response = reqSession.get(
+        f'{BASE_URL}/tv/{tv_id}/season/{season_number}/episode/{episode_number}',
+        params={'api_key': API_KEY}
+    )
+    redis_db.set(encoded, json_dumps(result.json()), ex=ONE_WEEK_SECS)
+    return UJSONResponse(result.json())
+
+
 TvRouter = Router([
     Route('/popular', endpoint=get_popular_tv, methods=['GET']),
     Route('/upcoming', endpoint=get_up_coming_tv, methods=['GET']),
-    Route('/{tv_id}', endpoint=get_tv_by_id, methods=['GET'])
+    Route('/{tv_id}', endpoint=get_tv_by_id, methods=['GET']),
+    Route('/{tv_id}/season/{season_number}/episode/{episode_number}', endpoint=get_episodes_by_season, methods=['GET'])
 ])
