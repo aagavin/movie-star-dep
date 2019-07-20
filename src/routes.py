@@ -4,8 +4,7 @@ from starlette.requests import Request
 from starlette.responses import UJSONResponse
 from src.api.search import SearchRouter
 from src.api.account import AccountRouter
-from src.api.movie import MovieRouter
-from src.api.tv import TvRouter
+from src.api.media import MediaRouter
 from . import config
 
 
@@ -16,8 +15,7 @@ app: Starlette = Starlette(debug=DEBUG)
 app.routes.extend(
     [
         Mount('/search', app=SearchRouter),
-        Mount('/movie', app=MovieRouter),
-        Mount('/tv', app=TvRouter),
+        Mount('/media', app=MediaRouter),
         Mount('/user', app=AccountRouter)
     ]
 )

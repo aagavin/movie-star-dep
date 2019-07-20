@@ -1,7 +1,10 @@
 from starlette.routing import Route, Router
 from starlette.requests import Request
 from starlette.responses import UJSONResponse
-from firebase_admin import auth
+from requests import Response
+from firebase_admin import auth, firestore
+
+db = firestore.client()
 
 
 async def create_account(request: Request) -> UJSONResponse:
@@ -18,11 +21,15 @@ async def create_account(request: Request) -> UJSONResponse:
 
 async def get_favourites(request: Request) -> UJSONResponse:
     token = request.headers.get('id_token')
-    uid: dict = auth.verify_id_token(token)
-    if uid.get('user_id') is None:
-        return UJSONResponse({'err': 'sdfsdfsf'})
-
-    return UJSONResponse({id: uid})
+    try:
+        uid: dict = auth.verify_id_token(token)
+    except ValueError as v:
+        return UJSONResponse({'error': v.args}, 400)
+    user_favs = db.collection('favs').document(uid.get('user_id')).get().to_dict()
+    for fav in user_favs:
+        if user_favs[fav]['catogery'] == 'movie':
+            print('call move')
+    return UJSONResponse({'favs': user_favs})
 
 AccountRouter = Router([
     Route('/create', endpoint=create_account, methods=['POST']),
