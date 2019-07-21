@@ -20,6 +20,8 @@ async def create_account(request: Request) -> UJSONResponse:
         )
     except AuthError as ae:
         return UJSONResponse(ae.detail.response.json(), 400)
+    except ValueError as ve:
+        return UJSONResponse({'error': {'code': 400, 'message': ve.args[0]}}, 400)
     return UJSONResponse({'name': user.uid})
 
 
