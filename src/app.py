@@ -8,7 +8,7 @@ import ujson
 import uvicorn
 
 
-cached_paths = ['/search/', '/tv/', '/movie/']
+cached_paths = ['/search/', '/media/']
 
 
 class CacheMiddleware(BaseHTTPMiddleware):
