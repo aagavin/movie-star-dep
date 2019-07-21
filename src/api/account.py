@@ -1,7 +1,7 @@
 from starlette.routing import Route, Router
 from starlette.requests import Request
 from starlette.responses import UJSONResponse
-from requests import Response
+from firebase_admin.auth import AuthError
 from firebase_admin import auth, firestore
 
 db = firestore.client()
@@ -9,13 +9,16 @@ db = firestore.client()
 
 async def create_account(request: Request) -> UJSONResponse:
     body = await request.json()
-    user = auth.create_user(
-        email=body['email'],
-        email_verified=False,
-        password=body['password'],
-        phone_number=body['phone'],
-        display_name=body['name'],
-        disabled=False)
+    try:
+        user = auth.create_user(
+            email=body['email'],
+            email_verified=False,
+            password=body['password'],
+            phone_number=body['phone'],
+            display_name=body['name'],
+            disabled=False)
+    except AuthError as ae:
+        return UJSONResponse(ae.detail.response.json(), 400)
     return UJSONResponse({'name': user.uid})
 
 
