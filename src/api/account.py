@@ -26,6 +26,5 @@ async def create_account(request: Request) -> UJSONResponse:
 
 AccountRouter = Router([
     Route('/create', endpoint=create_account, methods=['POST']),
-    Route('/favourites', endpoint=get_favourites, methods=['GET']),
     Route('/{user_id}', endpoint=lambda r: UJSONResponse({}), methods=['GET']),
 ])
