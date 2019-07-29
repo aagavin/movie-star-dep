@@ -12,18 +12,13 @@ async def generate_key(request):
     return b64encode(f'{request.url.path}-{request.query_params}'.encode('utf-8'))
 
 
-async def get_media_by_id(request: Request, get_dict=False, media_id=None, media_type=None) -> UJSONResponse or dict:
-    media_id = request.path_params.get('media_id') or media_id
-    media_type = request.path_params['media_type'] or media_type
-    result = reqSession.get(
-        f'{BASE_URL}/{media_type}/{media_id}', params={'api_key': API_KEY}
-    )
-    if get_dict:
-        return result.json()
-    else:
-        encoded = await generate_key(request)
-        redis_db.set(encoded, json_dumps(result.json()), ex=ONE_WEEK_SECS)
-        return UJSONResponse(result.json())
+async def get_media_by_id(request: Request) -> UJSONResponse or dict:
+    media_id = request.path_params.get('media_id')
+    media_type = request.path_params['media_type']
+    result = reqSession.get(f'{BASE_URL}/{media_type}/{media_id}', params={'api_key': API_KEY})
+    encoded = await generate_key(request)
+    redis_db.set(encoded, json_dumps(result.json()), ex=ONE_WEEK_SECS)
+    return UJSONResponse(result.json())
 
 
 async def get_popular_media(request: Request) -> UJSONResponse:
