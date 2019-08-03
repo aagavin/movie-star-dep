@@ -23,7 +23,7 @@ idna==2.8
 msgpack==0.6.1
 protobuf==3.9.0
 pyasn1==0.4.5
-pyasn1-modules==0.2.5
+pyasn1-modules==0.2.6
 pytz==2019.2
 PyYAML==5.1
 redis==3.2.1
