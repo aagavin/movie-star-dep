@@ -36,5 +36,5 @@ uritemplate==3.0.0
 urllib3==1.25.3
 uvicorn==0.8.4
 uvloop==0.12.2
-websockets==8.0.1
+websockets==8.0.2
 wirerope==0.2.1
