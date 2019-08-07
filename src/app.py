@@ -1,4 +1,5 @@
 from starlette.middleware.cors import CORSMiddleware
+from starlette.middleware.gzip import GZipMiddleware
 from starlette.middleware.base import BaseHTTPMiddleware
 from starlette.responses import UJSONResponse
 from src.routes import app
@@ -23,6 +24,7 @@ class CacheMiddleware(BaseHTTPMiddleware):
 
 
 app.add_middleware(CacheMiddleware)
+app.add_middleware(GZipMiddleware)
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],

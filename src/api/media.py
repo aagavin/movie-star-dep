@@ -9,7 +9,6 @@ from .. import reqSession, API_KEY, BASE_URL, redis_db, ONE_WEEK_SECS
 
 
 async def save_cache(url_path, query_params, data, status):
-    # encoded = b64encode(f'{request.url.path}-{request.query_params}'.encode('utf-8'))
     if status != 200:
         return
     encoded = b64encode(f'{url_path}-{query_params}'.encode('utf-8'))
@@ -48,7 +47,7 @@ async def get_episodes_by_season(request: Request):
     tv_id = request.path_params.get('tv_id')
     season_number = request.path_params.get('season_number')
     episode_number = request.path_params.get('episode_number')
-    sleep(.1)
+    sleep(.5)
     result: Response = reqSession.get(
         f'{BASE_URL}/tv/{tv_id}/season/{season_number}/episode/{episode_number}',
         params={'api_key': API_KEY}
