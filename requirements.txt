@@ -22,7 +22,7 @@ httptools==0.0.13
 idna==2.8
 msgpack==0.6.1
 protobuf==3.9.1
-pyasn1==0.4.6
+pyasn1==0.4.7
 pyasn1-modules==0.2.6
 pytz==2019.2
 PyYAML==5.1.2
