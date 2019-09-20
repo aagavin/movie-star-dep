@@ -20,7 +20,7 @@ hiredis==1.0.0
 httplib2==0.13.1
 httptools==0.0.13
 idna==2.8
-msgpack==0.6.1
+msgpack==0.6.2
 protobuf==3.9.1
 pyasn1==0.4.7
 pyasn1-modules==0.2.6
