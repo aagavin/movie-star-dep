@@ -8,7 +8,8 @@ import base64
 
 
 async def search_all(request: Request):
-    from ..db import redis_async
+    from ..db import RedisDatabase
+    redis_async = RedisDatabase.redis_async
     encoded = base64.b64encode(f'{request.url.path}-{request.query_params}'.encode('utf-8'))
     endpoint = request.path_params.get('endpoint')
     if endpoint is None or endpoint not in ['movie', 'tv']:

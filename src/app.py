@@ -10,12 +10,12 @@ import uvicorn
 
 class CacheMiddleware(BaseHTTPMiddleware):
     async def dispatch(self, request, call_next):
-        from src.db import redis_async
+        from src.db import RedisDatabase
+        redis_async = RedisDatabase.redis_async
         encoded = base64.b64encode(f'{request.url.path}-{request.query_params}'.encode('utf-8'))
         if any([request.url.path.startswith(path) for path in ['/search/', '/media/']]):
             cache = await redis_async.get(encoded, encoding='utf-8')
             if cache is not None:
-                # print('using cache')
                 return UJSONResponse(ujson.loads(cache))
         return await call_next(request)
 
@@ -28,6 +28,9 @@ app.add_middleware(
     allow_headers=["*"],
     allow_methods=["*"]
 )
+
+app.add_exception_handler(404, lambda r, e: UJSONResponse(e))
+app.add_exception_handler(500, lambda r, e: UJSONResponse(e))
 
 
 if __name__ == '__main__':

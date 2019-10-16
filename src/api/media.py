@@ -9,7 +9,8 @@ from .. import reqSession, API_KEY, BASE_URL, ONE_WEEK_SECS
 
 
 async def save_cache(url_path, query_params, data, status):
-    from src.db import redis_async
+    from src.db import RedisDatabase
+    redis_async = RedisDatabase.redis_async
     if status != 200:
         return
     encoded = b64encode(f'{url_path}-{query_params}'.encode('utf-8'))
