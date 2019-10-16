@@ -3,20 +3,17 @@ from starlette.middleware.gzip import GZipMiddleware
 from starlette.middleware.base import BaseHTTPMiddleware
 from starlette.responses import UJSONResponse
 from src.routes import app
-from src import redis_db
 import base64
 import ujson
 import uvicorn
 
 
-cached_paths = ['/search/', '/media/']
-
-
 class CacheMiddleware(BaseHTTPMiddleware):
     async def dispatch(self, request, call_next):
+        from src.db import redis_async
         encoded = base64.b64encode(f'{request.url.path}-{request.query_params}'.encode('utf-8'))
-        if any([request.url.path.startswith(path) for path in cached_paths]):
-            cache = redis_db.get(encoded)
+        if any([request.url.path.startswith(path) for path in ['/search/', '/media/']]):
+            cache = await redis_async.get(encoded, encoding='utf-8')
             if cache is not None:
                 # print('using cache')
                 return UJSONResponse(ujson.loads(cache))

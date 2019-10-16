@@ -5,14 +5,15 @@ from requests import Response
 from time import sleep
 from ujson import dumps as json_dumps
 from base64 import b64encode
-from .. import reqSession, API_KEY, BASE_URL, redis_db, ONE_WEEK_SECS
+from .. import reqSession, API_KEY, BASE_URL, ONE_WEEK_SECS
 
 
 async def save_cache(url_path, query_params, data, status):
+    from src.db import redis_async
     if status != 200:
         return
     encoded = b64encode(f'{url_path}-{query_params}'.encode('utf-8'))
-    redis_db.set(encoded, json_dumps(data), ex=ONE_WEEK_SECS)
+    await redis_async.set(encoded, json_dumps(data), expire=ONE_WEEK_SECS)
 
 
 async def get_media_by_id(request: Request) -> UJSONResponse or dict:

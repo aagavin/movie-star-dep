@@ -6,11 +6,15 @@ from src.api.search import SearchRouter
 from src.api.account import AccountRouter
 from src.api.media import MediaRouter
 from . import config
+from .db import open_database_connection_pool, close_database_connection_pool
 
 
 DEBUG = config('DEBUG', cast=bool)
 app: Starlette = Starlette(debug=DEBUG)
 
+
+app.add_event_handler('startup', open_database_connection_pool)
+app.add_event_handler('shutdown', close_database_connection_pool)
 
 app.routes.extend(
     [
