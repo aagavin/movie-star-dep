@@ -35,7 +35,7 @@ starlette==0.12.10
 ujson==1.35
 uritemplate==3.0.0
 urllib3==1.25.6
-uvicorn==0.9.0
+uvicorn==0.9.1
 uvloop==0.13.0
 websockets==8.0.2
 wirerope==0.2.1
