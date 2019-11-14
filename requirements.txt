@@ -31,7 +31,7 @@ PyYAML==5.1.2
 requests==2.22.0
 rsa==4.0
 six==1.13.0
-starlette==0.12.13
+starlette==0.13.0
 ujson==1.35
 uritemplate==3.0.0
 urllib3==1.25.7
