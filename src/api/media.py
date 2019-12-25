@@ -5,7 +5,9 @@ from requests import Response
 from time import sleep
 from ujson import dumps as json_dumps
 from base64 import b64encode
-from .. import reqSession, API_KEY, BASE_URL, ONE_WEEK_SECS
+from .. import reqSession, imdb, API_KEY, BASE_URL, ONE_WEEK_SECS
+
+user_agent = 'Mozilla/5.0 (Windows NT 10.0; rv:68.0) Gecko/20100101 Firefox/68.0'
 
 
 async def save_cache(url_path, query_params, data, status):
@@ -25,6 +27,11 @@ async def get_media_by_id(request: Request) -> UJSONResponse or dict:
     return UJSONResponse(result.json())
 
 
+async def get_media_by_id2(request: Request) -> UJSONResponse:
+    media_id = request.path_params.get('media_id')
+    return UJSONResponse(imdb.get_title_auxiliary(media_id))
+
+
 async def get_popular_media(request: Request) -> UJSONResponse:
     result: Response = reqSession.get(
         f'{BASE_URL}/{request.path_params["media_type"]}/popular',
@@ -32,6 +39,14 @@ async def get_popular_media(request: Request) -> UJSONResponse:
     )
     await save_cache(request.url.path, request.query_params, result.json()['results'], result.status_code)
     return UJSONResponse(result.json()['results'])
+
+
+async def get_popular_media2(request: Request) -> UJSONResponse:
+    media_type = request.path_params.get('media_type')
+    if media_type == 'movies':
+        return UJSONResponse(imdb.get_popular_movies())
+    else:
+        return UJSONResponse(imdb.get_popular_shows())
 
 
 async def get_up_coming(request: Request) -> UJSONResponse:
@@ -56,6 +71,11 @@ async def get_episodes_by_season(request: Request):
     )
     await save_cache(request.url.path, request.query_params, result.json(), result.status_code)
     return UJSONResponse(result.json())
+
+MediaRouter2 = Router([
+    Route('/{media_type}/popular', endpoint=get_popular_media2, methods=['GET']),
+    Route('/{media_type}/{media_id}', endpoint=get_media_by_id2, methods=['GET']),
+])
 
 
 MediaRouter = Router([
