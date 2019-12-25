@@ -1,7 +1,7 @@
 from starlette.routing import Route, Router
 from starlette.requests import Request
 from starlette.responses import UJSONResponse
-from .. import reqSession, API_KEY, BASE_URL, ONE_WEEK_SECS
+from .. import reqSession, reqXSession, imdb, API_KEY, BASE_URL, ONE_WEEK_SECS
 from requests import Response
 from ujson import dumps as json_dumps
 import base64
@@ -19,6 +19,12 @@ async def search_all(request: Request):
     return UJSONResponse(response)
 
 
+async def search_all2(request: Request):
+    query: str = request.query_params.get('q')
+    response = await reqXSession.get(f'https://v2.sg.media-imdb.com/suggestion/a/{query.replace(" ", "_")}.json')
+    return UJSONResponse(response.json()['d'])
+
+
 async def do_search(search_query, url):
     query_params = {
         'api_key': API_KEY,
@@ -28,6 +34,12 @@ async def do_search(search_query, url):
     # Fix for when it's only a move or TV search
     response = [x for x in result.json()['results'] if x.get('media_type') in ['movie', 'tv']]
     return response
+
+
+SearchRouter2 = Router([
+    Route('/', endpoint=search_all2, methods=['GET']),
+    Route('/{endpoint}', endpoint=search_all2, methods=['GET'])
+])
 
 
 SearchRouter = Router([
