@@ -4,13 +4,20 @@ from requests import Session
 from firebase_admin import credentials
 import firebase_admin
 import requests
+from imdbpie import Imdb
+import httpx
 
 config = Config()
 ONE_WEEK_SECS = 604800
 reqSession: Session = requests.session()
+reqXSession = httpx.Client()
+imdb = Imdb()
+
 
 API_KEY = config('API_KEY', cast=Secret)
+OMDB_KEY = config('omdbapi', cast=Secret)
 BASE_URL = config('BASE_URL')
+BASE_URL2 = config('BASE_URL2')
 project_id = config('project_id')
 private_key_id = config('private_key_id')
 private_key = config('private_key')

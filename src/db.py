@@ -1,4 +1,4 @@
-from aioredis import create_redis_pool, Redis
+from aioredis import create_redis_pool
 from starlette.config import Config
 
 
