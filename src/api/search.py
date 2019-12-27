@@ -21,7 +21,7 @@ async def search_all(request: Request):
 
 async def search_all2(request: Request):
     query: str = request.query_params.get('q')
-    response = await reqXSession.get(f'https://v2.sg.media-imdb.com/suggestion/{query[:1}/{query.replace(" ", "_")}.json')
+    response = await reqXSession.get(f'https://v2.sg.media-imdb.com/suggestion/{query[:1]}/{query.replace(" ", "_")}.json')
     return UJSONResponse(response.json()['d'])
 
 
