@@ -43,9 +43,13 @@ async def get_popular_media(request: Request) -> UJSONResponse:
 
 async def get_popular_media2(request: Request) -> UJSONResponse:
     media_type = request.path_params.get('media_type')
+    popular_media = []
     if media_type == 'movies':
-        return UJSONResponse(imdb.get_popular_movies()['ranks'])
-    return UJSONResponse(imdb.get_popular_shows()['ranks'])
+        popular_media = imdb.get_popular_movies()['ranks']
+    else:
+        popular_media = imdb.get_popular_shows()['ranks']
+    popular_media = [{**media, 'id': media['id'].split('/')[2]} for media in popular_media]
+    return UJSONResponse(popular_media)
 
 
 async def get_up_coming(request: Request) -> UJSONResponse:
@@ -71,11 +75,11 @@ async def get_episodes_by_season(request: Request):
     await save_cache(request.url.path, request.query_params, result.json(), result.status_code)
     return UJSONResponse(result.json())
 
+
 MediaRouter2 = Router([
     Route('/{media_type}/popular', endpoint=get_popular_media2, methods=['GET']),
     Route('/{media_type}/{media_id}', endpoint=get_media_by_id2, methods=['GET']),
 ])
-
 
 MediaRouter = Router([
     Route('/{media_type}/popular', endpoint=get_popular_media, methods=['GET']),
