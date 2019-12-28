@@ -44,8 +44,8 @@ async def get_popular_media(request: Request) -> UJSONResponse:
 async def get_popular_media2(request: Request) -> UJSONResponse:
     media_type = request.path_params.get('media_type')
     if media_type == 'movies':
-        return UJSONResponse(imdb.get_popular_movies())
-    return UJSONResponse(imdb.get_popular_shows())
+        return UJSONResponse(imdb.get_popular_movies()['ranks'])
+    return UJSONResponse(imdb.get_popular_shows()['ranks'])
 
 
 async def get_up_coming(request: Request) -> UJSONResponse:
