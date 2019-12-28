@@ -21,8 +21,19 @@ async def search_all(request: Request):
 
 async def search_all2(request: Request):
     query: str = request.query_params.get('q')
-    response = await reqXSession.get(f'https://v2.sg.media-imdb.com/suggestion/a/{query.replace(" ", "_")}.json')
-    return UJSONResponse(response.json()['d'])
+    results = await reqXSession.get(f'https://v2.sg.media-imdb.com/suggestion/a/{query.replace(" ", "_")}.json')
+    response = []
+    for result in results.json()['d']:
+        if result.get('q') in ['TV series', 'TV mini-series', 'feature']:
+            response.append({
+                **result,
+                'image': {
+                    'url': result['i']['imageUrl']
+                },
+                'title': result['l']
+            })
+
+    return UJSONResponse(response)
 
 
 async def do_search(search_query, url):
