@@ -29,7 +29,9 @@ async def get_media_by_id(request: Request) -> UJSONResponse or dict:
 
 async def get_media_by_id2(request: Request) -> UJSONResponse:
     media_id = request.path_params.get('media_id')
-    return UJSONResponse(imdb.get_title_auxiliary(media_id))
+    response: dict = imdb.get_title_auxiliary(media_id)
+    response['id'] = response['id'].split('/')[2]
+    return UJSONResponse(response)
 
 
 async def get_popular_media(request: Request) -> UJSONResponse:
