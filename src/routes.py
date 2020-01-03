@@ -2,9 +2,9 @@ from starlette.routing import Mount
 from starlette.applications import Starlette
 from starlette.requests import Request
 from starlette.responses import UJSONResponse
-from src.api.search import SearchRouter, SearchRouter2
+from src.api.search import SearchRouter
 from src.api.account import AccountRouter
-from src.api.media import MediaRouter, MediaRouter2
+from src.api.media import MediaRouter
 from . import config, reqXSession
 from .db import RedisDatabase
 
@@ -29,9 +29,7 @@ app.add_event_handler('shutdown', shutdown)
 
 app.routes.extend(
     [
-        Mount('/v2/search', app=SearchRouter2),
         Mount('/search', app=SearchRouter),
-        Mount('/v2/media', app=MediaRouter2),
         Mount('/media', app=MediaRouter),
         Mount('/user', app=AccountRouter)
     ]
