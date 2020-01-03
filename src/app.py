@@ -20,7 +20,7 @@ class CacheMiddleware(BaseHTTPMiddleware):
         return await call_next(request)
 
 
-app.add_middleware(CacheMiddleware)
+# app.add_middleware(CacheMiddleware)
 app.add_middleware(GZipMiddleware)
 app.add_middleware(
     CORSMiddleware,
