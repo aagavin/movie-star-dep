@@ -16,7 +16,9 @@ class CacheMiddleware(BaseHTTPMiddleware):
         if any([request.url.path.startswith(path) for path in ['/search/', '/media/']]):
             cache = await redis_async.get(encoded, encoding='utf-8')
             if cache is not None:
-                return UJSONResponse(ujson.loads(cache))
+                response: UJSONResponse = UJSONResponse(ujson.loads(cache))
+                response.headers.append('X-FROM-CACHE', 'true')
+                return response
         return await call_next(request)
 
 
