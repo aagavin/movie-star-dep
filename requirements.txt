@@ -10,7 +10,7 @@ Click==7.0
 cssselect==1.1.0
 diskcache==4.1.0
 firebase-admin==3.2.1
-google-api-core==1.15.0
+google-api-core==1.16.0
 google-api-python-client==1.7.11
 google-auth==1.10.0
 google-auth-httplib2==0.0.3
