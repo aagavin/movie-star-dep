@@ -1,5 +1,4 @@
 from starlette.config import Config
-from starlette.datastructures import Secret
 from requests import Session
 from firebase_admin import credentials
 import firebase_admin
@@ -14,10 +13,6 @@ reqXSession = httpx.Client()
 imdb = Imdb()
 
 
-API_KEY = config('API_KEY', cast=Secret)
-OMDB_KEY = config('omdbapi', cast=Secret)
-BASE_URL = config('BASE_URL')
-BASE_URL2 = config('BASE_URL2')
 project_id = config('project_id')
 private_key_id = config('private_key_id')
 private_key = config('private_key')
