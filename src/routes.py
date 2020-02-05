@@ -30,7 +30,7 @@ async def http_500_json_exception(request: Request, exc):
         'path': request.scope['raw_path'].decode("utf-8")
     }
     status_code = 500
-    if type(exc) in [ValueError, TypeError]:
+    if isinstance(exc, (ValueError, TypeError)):
         resp_obj['error'] = str(exc)
     else:
         resp_obj['error'] = exc.detail
