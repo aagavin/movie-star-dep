@@ -9,7 +9,7 @@ import httpx
 config = Config()
 ONE_WEEK_SECS = 604800
 reqSession: Session = requests.session()
-reqXSession = httpx.Client()
+reqXSession = httpx.AsyncClient()
 imdb = Imdb()
 
 

@@ -24,8 +24,24 @@ async def shutdown():
     print('httpx session closed')
 
 
+async def http_500_json_exception(request: Request, exc):
+    resp_obj = {
+        'headers': request.headers.raw,
+        'path': request.scope['raw_path'].decode("utf-8")
+    }
+    status_code = 500
+    if type(exc) in [ValueError, TypeError]:
+        resp_obj['error'] = str(exc)
+    else:
+        resp_obj['error'] = exc.detail
+    return UJSONResponse(resp_obj, status_code=status_code)
+
+
 app.add_event_handler('startup', startup)
 app.add_event_handler('shutdown', shutdown)
+app.add_exception_handler(500, http_500_json_exception)
+app.add_exception_handler(ValueError, http_500_json_exception)
+app.add_exception_handler(TypeError, http_500_json_exception)
 
 app.routes.extend(
     [
