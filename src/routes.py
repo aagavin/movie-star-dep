@@ -1,3 +1,5 @@
+from typing import Tuple
+
 from starlette.routing import Mount
 from starlette.applications import Starlette
 from starlette.requests import Request
@@ -24,24 +26,39 @@ async def shutdown():
     print('httpx session closed')
 
 
-async def http_500_json_exception(request: Request, exc):
+async def json_exception(request: Request, exc, status_code: int, custom_exceptions: Tuple):
     resp_obj = {
         'headers': request.headers.raw,
-        'path': request.scope['raw_path'].decode("utf-8")
+        'path': request.scope['raw_path'].decode("utf-8"),
+        'status_code': status_code
     }
-    status_code = 500
-    if isinstance(exc, (ValueError, TypeError)):
+    if isinstance(exc, custom_exceptions):
         resp_obj['error'] = str(exc)
     else:
         resp_obj['error'] = exc.detail
-    return UJSONResponse(resp_obj, status_code=status_code)
+        resp_obj['status_code'] = exc.status_code
+    return UJSONResponse(resp_obj, status_code=resp_obj['status_code'])
+
+
+async def http_500_json_exception(request: Request, exc):
+    return await json_exception(request, exc,  500, (ValueError, TypeError, KeyError))
+
+
+async def http_404_json_exception(request: Request, exc):
+    return await json_exception(request, exc, 404, (LookupError, ))
 
 
 app.add_event_handler('startup', startup)
 app.add_event_handler('shutdown', shutdown)
 app.add_exception_handler(500, http_500_json_exception)
-app.add_exception_handler(ValueError, http_500_json_exception)
-app.add_exception_handler(TypeError, http_500_json_exception)
+app.add_exception_handler(404, http_404_json_exception)
+
+for error in [LookupError]:
+    app.add_exception_handler(error, http_404_json_exception)
+
+# add all 500 errors
+for error in [ValueError, TypeError, KeyError]:
+    app.add_exception_handler(error, http_500_json_exception)
 
 app.routes.extend(
     [
