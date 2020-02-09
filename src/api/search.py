@@ -9,7 +9,10 @@ async def search_all(request: Request):
     query: str = request.query_params.get('q')
     results: Response = await reqXSession.get(f'https://v2.sg.media-imdb.com/suggestion/{query[:1]}/{query.replace(" ", "_")}.json')
     response = []
-    for result in results.json()['d']:
+    json_results = results.json().get('d')
+    if json_results is None:
+        return UJSONResponse([])
+    for result in json_results:
         if result.get('q') in ['TV series', 'TV mini-series', 'feature']:
             response.append({
                 **result,
