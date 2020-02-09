@@ -28,7 +28,10 @@ class CacheMiddleware(BaseHTTPMiddleware):
 
 
 app.add_middleware(CacheMiddleware)
-app.add_middleware(TrustedHostMiddleware, allowed_hosts=['movie.aagavin.ca', 'localhost'])
+app.add_middleware(
+    TrustedHostMiddleware,
+    allowed_hosts=['movie.aagavin.ca', 'localhost', 'watch-tv-list.herokuapp.com']
+)
 app.add_middleware(GZipMiddleware)
 app.add_middleware(
     CORSMiddleware,
