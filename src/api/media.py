@@ -1,5 +1,6 @@
 from starlette.routing import Route, Router
 from starlette.requests import Request
+from starlette.background import BackgroundTask
 from starlette.responses import UJSONResponse
 from ujson import dumps as json_dumps
 from base64 import b64encode
@@ -19,8 +20,8 @@ async def get_media_by_id(request: Request) -> UJSONResponse:
     media_id = request.path_params.get('media_id')
     response: dict = imdb.get_title_auxiliary(media_id)
     response['id'] = response['id'].split('/')[2]
-    await save_cache(request.url.path, request.query_params, response, 200)
-    return UJSONResponse(response)
+    task = BackgroundTask(save_cache, url_path=request.url.path, query_params=request.query_params, data=response)
+    return UJSONResponse(response, background=task)
 
 
 async def get_popular_media(request: Request) -> UJSONResponse:
@@ -30,8 +31,8 @@ async def get_popular_media(request: Request) -> UJSONResponse:
     else:
         popular_media = imdb.get_popular_shows()['ranks']
     popular_media = [{**media, 'id': media['id'].split('/')[2]} for media in popular_media]
-    await save_cache(request.url.path, request.query_params, popular_media, 200)
-    return UJSONResponse(popular_media)
+    task = BackgroundTask(save_cache, url_path=request.url.path, query_params=request.query_params, data=popular_media)
+    return UJSONResponse(popular_media, background=task)
 
 
 MediaRouter = Router([
