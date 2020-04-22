@@ -45,7 +45,7 @@ async def get_tv_next_episode(request: Request) -> UJSONResponse:
     try:
         element: HtmlElement = await get_next_episode_request(request)
         air_text: str = element.getchildren()[0].text.split('airs')[1][:-1]
-        return UJSONResponse({'next_episode': air_text})
+        return UJSONResponse({'next_episode': air_text.strip()})
     except KeyError:
         return UJSONResponse({}, status_code=404)
 
