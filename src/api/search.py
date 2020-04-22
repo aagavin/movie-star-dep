@@ -17,7 +17,7 @@ async def search_all(request: Request):
             response.append({
                 **result,
                 'image': {
-                    'url': result['i']['imageUrl']
+                    'url': result['i']['imageUrl'] if result.get('i') is not None else ''
                 },
                 'title': result['l']
             })
