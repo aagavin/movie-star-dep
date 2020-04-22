@@ -10,6 +10,13 @@ from httpx import Response
 from .. import imdb, ONE_WEEK_SECS, reqXSession
 
 
+async def get_next_episode_request(request):
+    media_id = request.path_params.get('media_id')
+    page: Response = await reqXSession.get(f'https://www.imdb.com/title/{media_id}/episodes')
+    document = html.document_fromstring(page.text)
+    return document.get_element_by_id('nextEpisode')
+
+
 async def save_cache(url_path, query_params, data, status=200):
     from src.db import RedisDatabase
     redis_async = RedisDatabase.redis_async
@@ -35,15 +42,12 @@ async def get_media_episodes(request: Request) -> UJSONResponse:
 
 
 async def get_tv_next_episode(request: Request) -> UJSONResponse:
-    media_id = request.path_params.get('media_id')
-    page: Response = await reqXSession.get(f'https://www.imdb.com/title/{media_id}/episodes')
-    document = html.document_fromstring(page.text)
     try:
-        element: HtmlElement = document.get_element_by_id('nextEpisode')
+        element: HtmlElement = await get_next_episode_request(request)
+        air_text: str = element.getchildren()[0].text.split('airs')[1][:-1]
+        return UJSONResponse({'next_episode': air_text})
     except KeyError:
         return UJSONResponse({}, status_code=404)
-    air_text: str = element.getchildren()[0].text.split('airs')[1][:-1]
-    return UJSONResponse({'next_episode': air_text})
 
 
 async def get_popular_media(request: Request) -> UJSONResponse:
