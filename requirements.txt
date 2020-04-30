@@ -43,7 +43,7 @@ rfc3986==1.4.0
 rsa==4.0
 six==1.14.0
 sniffio==1.1.0
-starlette==0.13.3
+starlette==0.13.4
 trans==2.1.0
 ujson==2.0.3
 uritemplate==3.0.1
