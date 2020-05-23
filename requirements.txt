@@ -31,7 +31,7 @@ httpx==0.12.1
 hyperframe==5.2.0
 idna==2.9
 imdbpie==5.6.4
-lxml==4.5.0
+lxml==4.5.1
 msgpack==1.0.0
 protobuf==3.11.3
 pyasn1==0.4.8
