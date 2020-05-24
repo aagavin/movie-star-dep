@@ -3,18 +3,8 @@ from starlette.requests import Request
 from starlette.background import BackgroundTask
 from starlette.responses import UJSONResponse
 from ujson import dumps as json_dumps
-from lxml import html
-from lxml.html import HtmlElement
 from base64 import b64encode
-from httpx import Response
-from .. import imdb, ONE_WEEK_SECS, reqXSession
-
-
-async def get_next_episode_request(request):
-    media_id = request.path_params.get('media_id')
-    page: Response = await reqXSession.get(f'https://www.imdb.com/title/{media_id}/episodes')
-    document = html.document_fromstring(page.text)
-    return document.get_element_by_id('nextEpisode')
+from .. import imdb, ONE_WEEK_SECS
 
 
 async def save_cache(url_path, query_params, data, status=200):
@@ -30,6 +20,18 @@ async def get_media_by_id(request: Request) -> UJSONResponse:
     media_id = request.path_params.get('media_id')
     response: dict = imdb.get_title_auxiliary(media_id)
     response['id'] = response['id'].split('/')[2]
+    response.pop('nextEpisode', None)
+    response.pop('soundtracks', None)
+    response.pop('adWidgets', None)
+    response.pop('productionStatus', None)
+    response.pop('filmingLocations', None)
+    response.pop('videos', None)
+    response.pop('seasonsInfo', None)
+    response.pop('numberOfVotes', None)
+    response.pop('canRate', None)
+    response.pop('topRank', None)
+    response.pop('userRating', None)
+    response.pop('alternateTitlesSample', None)
     task = BackgroundTask(save_cache, url_path=request.url.path, query_params=request.query_params, data=response)
     return UJSONResponse(response, background=task)
 
@@ -39,15 +41,6 @@ async def get_media_episodes(request: Request) -> UJSONResponse:
     response: dict = imdb.get_title_episodes(media_id)
     task = BackgroundTask(save_cache, url_path=request.url.path, query_params=request.query_params, data=response)
     return UJSONResponse(response, background=task)
-
-
-async def get_tv_next_episode(request: Request) -> UJSONResponse:
-    try:
-        element: HtmlElement = await get_next_episode_request(request)
-        air_text: str = element.getchildren()[0].text.split('airs')[1][:-1]
-        return UJSONResponse({'next_episode': air_text.strip()})
-    except KeyError:
-        return UJSONResponse({}, status_code=404)
 
 
 async def get_popular_media(request: Request) -> UJSONResponse:
@@ -65,5 +58,4 @@ MediaRouter = Router([
     Route('/{media_type}/popular', endpoint=get_popular_media, methods=['GET']),
     Route('/{media_type}/{media_id}', endpoint=get_media_by_id, methods=['GET']),
     Route('/tv/{media_id}/episodes', endpoint=get_media_episodes, methods=['GET']),
-    Route('/tv/{media_id}/next_episode', endpoint=get_tv_next_episode, methods=['GET'])
 ])
