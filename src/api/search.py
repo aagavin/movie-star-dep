@@ -7,7 +7,7 @@ from httpx import Response
 
 async def search_all(request: Request):
     query: str = request.query_params.get('q')
-    results: Response = await reqXSession.get(f'https://v2.sg.media-imdb.com/suggestion/{query[:1]}/{query.replace(" ", "_")}.json')
+    results: Response = await reqXSession.get(f'https://v2.sg.media-imdb.com/suggestion/{query[:1].lower()}/{query.replace(" ", "_")}.json')
     response = []
     json_results = results.json().get('d')
     if json_results is None:
