@@ -18,7 +18,9 @@ class CacheMiddleware(BaseHTTPMiddleware):
         from src.db import RedisDatabase
         redis_async = RedisDatabase.redis_async
         encoded = base64.b64encode(f'{request.url.path}-{request.query_params}'.encode('utf-8'))
-        if any([request.url.path.startswith(path) for path in ['/search/', '/media/']]):
+        if any(
+            request.url.path.startswith(path) for path in ['/search/', '/media/']
+        ):
             cache = await redis_async.get(encoded, encoding='utf-8')
             if cache is not None:
                 response: UJSONResponse = UJSONResponse(ujson.loads(cache))
