@@ -9,7 +9,7 @@ chardet==3.0.4
 Click==7.1.2
 diskcache==4.1.0
 firebase-admin==4.3.0
-google-api-core==1.19.1
+google-api-core==1.20.0
 google-api-python-client==1.9.2
 google-auth==1.16.1
 google-auth-httplib2==0.0.3
