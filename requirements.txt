@@ -27,7 +27,7 @@ hpack==3.0.0
 hstspreload==2020.8.18
 httplib2==0.18.1
 httptools==0.1.1
-httpx==0.14.1
+httpx==0.14.2
 hyperframe==5.2.0
 idna==2.10
 imdbpie==5.6.4
