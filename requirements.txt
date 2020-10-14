@@ -42,7 +42,7 @@ requests==2.24.0
 rfc3986==1.4.0
 rsa==4.6
 six==1.15.0
-sniffio==1.1.0
+sniffio==1.2.0
 starlette==0.13.8
 trans==2.1.0
 ujson==4.0.1
