@@ -48,6 +48,6 @@ trans==2.1.0
 ujson==4.0.1
 uritemplate==3.0.1
 urllib3==1.26.2
-uvicorn==0.12.2
+uvicorn==0.12.3
 uvloop==0.14.0
 websockets==8.1
