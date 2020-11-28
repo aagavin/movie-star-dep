@@ -3,7 +3,7 @@ from typing import Tuple
 from starlette.routing import Mount
 from starlette.applications import Starlette
 from starlette.requests import Request
-from starlette.responses import UJSONResponse
+from starlette.responses import JSONResponse
 from src.api.search import SearchRouter
 from src.api.account import AccountRouter
 from src.api.media import MediaRouter
@@ -37,7 +37,7 @@ async def json_exception(request: Request, exc, status_code: int, custom_excepti
     else:
         resp_obj['error'] = exc.detail
         resp_obj['status_code'] = exc.status_code
-    return UJSONResponse(resp_obj, status_code=resp_obj['status_code'])
+    return JSONResponse(resp_obj, status_code=resp_obj['status_code'])
 
 
 async def http_500_json_exception(request: Request, exc):
@@ -70,5 +70,5 @@ app.routes.extend(
 
 
 @app.route('/')
-async def home(request: Request) -> UJSONResponse:
-    return UJSONResponse({'success': True, 'query': dict(request.query_params)})
+async def home(request: Request) -> JSONResponse:
+    return JSONResponse({'success': True, 'query': dict(request.query_params)})

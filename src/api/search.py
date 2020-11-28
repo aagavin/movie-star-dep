@@ -1,6 +1,6 @@
 from starlette.routing import Route, Router
 from starlette.requests import Request
-from starlette.responses import UJSONResponse
+from starlette.responses import JSONResponse
 from .. import reqXSession
 from httpx import Response
 
@@ -11,7 +11,7 @@ async def search_all(request: Request):
     response = []
     json_results = results.json().get('d')
     if json_results is None:
-        return UJSONResponse([])
+        return JSONResponse([])
     for result in json_results:
         if result.get('q') in ['TV series', 'TV mini-series', 'feature']:
             response.append({
@@ -22,7 +22,7 @@ async def search_all(request: Request):
                 'title': result['l']
             })
 
-    return UJSONResponse(response)
+    return JSONResponse(response)
 
 
 SearchRouter = Router([
