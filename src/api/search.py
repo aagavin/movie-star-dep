@@ -8,19 +8,22 @@ from httpx import Response
 async def search_all(request: Request):
     query: str = request.query_params.get('q')
     results: Response = await reqXSession.get(f'https://v2.sg.media-imdb.com/suggestion/{query[:1].lower()}/{query.replace(" ", "_")}.json')
-    response = []
     json_results = results.json().get('d')
     if json_results is None:
         return JSONResponse([])
-    for result in json_results:
-        if result.get('q') in ['TV series', 'TV mini-series', 'feature']:
-            response.append({
-                **result,
-                'image': {
-                    'url': result['i']['imageUrl'] if result.get('i') is not None else ''
-                },
-                'title': result['l']
-            })
+    response = [
+        {
+            **result,
+            'image': {
+                'url': result['i']['imageUrl']
+                if result.get('i') is not None
+                else ''
+            },
+            'title': result['l'],
+        }
+        for result in json_results
+        if result.get('q') in ['TV series', 'TV mini-series', 'feature']
+    ]
 
     return JSONResponse(response)
 
