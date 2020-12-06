@@ -6,6 +6,21 @@ from json import dumps as json_dumps
 from base64 import b64encode
 from .. import imdb, ONE_WEEK_SECS
 
+entries = [
+    'nextEpisode',
+    'soundtracks',
+    'adWidgets',
+    'productionStatus',
+    'filmingLocations',
+    'videos',
+    'seasonsInfo',
+    'numberOfVotes',
+    'canRate',
+    'topRank',
+    'userRating',
+    'alternateTitlesSample',
+]
+
 
 async def save_cache(url_path, query_params, data, status=200):
     from src.db import RedisDatabase
@@ -20,18 +35,10 @@ async def get_media_by_id(request: Request) -> JSONResponse:
     media_id = request.path_params.get('media_id')
     response: dict = imdb.get_title_auxiliary(media_id)
     response['id'] = response['id'].split('/')[2]
-    response.pop('nextEpisode', None)
-    response.pop('soundtracks', None)
-    response.pop('adWidgets', None)
-    response.pop('productionStatus', None)
-    response.pop('filmingLocations', None)
-    response.pop('videos', None)
-    response.pop('seasonsInfo', None)
-    response.pop('numberOfVotes', None)
-    response.pop('canRate', None)
-    response.pop('topRank', None)
-    response.pop('userRating', None)
-    response.pop('alternateTitlesSample', None)
+
+    for entry in entries:
+        response.pop(entry, None)
+
     task = BackgroundTask(save_cache, url_path=request.url.path, query_params=request.query_params, data=response)
     return JSONResponse(response, background=task)
 
