@@ -1,14 +1,10 @@
 from starlette.config import Config
-from requests import Session
-from firebase_admin import credentials
-import firebase_admin
-import requests
+from firebase_admin import credentials, initialize_app as firebase_initialize_app
 from imdbpie import Imdb
 import httpx
 
 config = Config()
 ONE_WEEK_SECS = 604800
-reqSession: Session = requests.session()
 reqXSession = httpx.AsyncClient()
 imdb = Imdb()
 
@@ -37,4 +33,4 @@ cred = credentials.Certificate({
     "client_x509_cert_url": client_x509_cert_url
 })
 
-firebase_app = firebase_admin.initialize_app(cred)
+firebase_app = firebase_initialize_app(cred)
