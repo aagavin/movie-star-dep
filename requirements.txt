@@ -9,7 +9,7 @@ cffi==1.14.4
 chardet==4.0.0
 click==7.1.2
 diskcache==5.1.0
-firebase-admin==4.4.0
+firebase-admin==4.5.0
 google-api-core==1.23.0
 google-api-python-client==1.12.8
 google-auth==1.23.0
