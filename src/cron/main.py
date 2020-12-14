@@ -1,20 +1,20 @@
-from cachetools.func import lru_cache
-
-from src import firebase_app
+import ssl
+from datetime import datetime
 from os import environ as os_environ
-from firebase_admin import auth
 from smtplib import SMTP_SSL
+
+from cachetools.func import lru_cache
+from src import firebase_app
+from firebase_admin import auth
+from firebase_admin import firestore
+from httpx import AsyncClient
+from imdbpie import Imdb
+from lxml import html as lh
 from sendgrid import SendGridAPIClient
 from sendgrid.helpers.mail import Mail
-from datetime import datetime
-from firebase_admin import firestore
-from lxml import html as lh
-from imdbpie import Imdb
-import httpx
-import ssl
 
 BROWSER_USER_AGENT = "Mozilla/5.0 (Macintosh; Intel Mac OS X 11.0; rv:83.0) Gecko/20100101 Firefox/83.0"
-reqXSession = httpx.AsyncClient()
+reqXSession = AsyncClient()
 imdb = Imdb()
 
 db = firestore.client()
