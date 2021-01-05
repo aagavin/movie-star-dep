@@ -29,7 +29,7 @@ httpcore==0.12.2
 httplib2==0.18.1
 httptools==0.1.1
 httpx==0.16.1
-idna==3.0
+idna==3.1
 imdbpie==5.6.4
 lxml==4.6.2
 msgpack==1.0.2
