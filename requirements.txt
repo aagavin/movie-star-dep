@@ -44,7 +44,7 @@ pytz==2020.5
 requests==2.25.1
 rfc3986==1.4.0
 rsa==4.7
-sendgrid==6.4.8
+sendgrid==6.5.0
 six==1.15.0
 sniffio==1.2.0
 starkbank-ecdsa==1.1.0
