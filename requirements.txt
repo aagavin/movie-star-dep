@@ -43,7 +43,7 @@ python-http-client==3.3.2
 pytz==2021.1
 requests==2.25.1
 rfc3986==1.4.0
-rsa==4.7
+rsa==4.7.1
 sendgrid==6.6.0
 six==1.15.0
 sniffio==1.2.0
