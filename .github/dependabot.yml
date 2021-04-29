@@ -1,0 +1,23 @@
+version: 2
+updates:
+- package-ecosystem: pip
+  directory: "/"
+  schedule:
+    interval: daily
+    time: "10:00"
+  open-pull-requests-limit: 10
+  ignore:
+  - dependency-name: google-auth
+    versions:
+    - 1.26.0
+    - 1.28.1
+    - 1.29.0
+  - dependency-name: lxml
+    versions:
+    - 4.6.3
+  - dependency-name: proto-plus
+    versions:
+    - 1.17.0
+  - dependency-name: protobuf
+    versions:
+    - 3.15.7
