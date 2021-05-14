@@ -45,7 +45,7 @@ requests==2.25.1
 rfc3986==1.4.0
 rsa==4.7.2
 sendgrid==6.7.0
-six==1.15.0
+six==1.16.0
 sniffio==1.2.0
 starkbank-ecdsa==1.1.0
 starlette==0.14.2
