@@ -48,7 +48,7 @@ sendgrid==6.7.0
 six==1.16.0
 sniffio==1.2.0
 starkbank-ecdsa==1.1.1
-starlette==0.14.2
+starlette==0.15.0
 trans==2.1.0
 uritemplate==3.0.1
 urllib3==1.26.5
