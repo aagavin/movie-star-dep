@@ -14,7 +14,7 @@ diskcache==2.9.0
 firebase-admin==5.0.2
 google-api-core==1.31.2
 google-api-python-client==2.21.0
-google-auth==1.35.0
+google-auth==2.1.0
 google-auth-httplib2==0.1.0
 google-cloud-core==2.0.0
 google-cloud-firestore==2.3.2
