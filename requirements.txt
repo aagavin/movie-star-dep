@@ -10,7 +10,7 @@ certifi==2021.10.8
 cffi==1.14.6
 charset-normalizer==2.0.9
 click==8.0.3
-diskcache==5.2.1
+diskcache==5.4.0
 firebase-admin==5.1.0
 google-api-core==2.2.2
 google-api-python-client==2.26.1
