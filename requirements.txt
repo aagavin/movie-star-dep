@@ -4,7 +4,7 @@ asgiref==3.4.1
 async-timeout==4.0.2
 attrs==21.2.0
 boto==2.49.0
-CacheControl==0.12.6
+CacheControl==0.12.10
 cachetools==4.2.4
 certifi==2021.10.8
 cffi==1.14.6
